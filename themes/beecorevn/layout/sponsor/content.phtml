@@ -1,0 +1,89 @@
+<div class="modal fade" id="send_money_modal_<?php echo $wo['story']['id'] ?>" role="dialog">
+   <div class="modal-dialog modal-md">
+      <div class="modal-content">
+         <div class="modal-body">
+            <form class="form" id="send-money-form-<?php echo $wo['story']['id'] ?>" autocomplete="off">
+               <div class="col-md-12" id="send-money-form-alert-<?php echo $wo['story']['id'] ?>">
+                  <?php if ($wo['user']['wallet'] == '0.00' || $wo['user']['wallet'] == '0'): ?>
+                     <div class="alert alert-warning">
+                        <?php echo $wo['lang']['balance_is_0'] ?> 
+                        <span>
+                           <i class="fa fa-university" aria-hidden="true"></i>
+                        </span>
+                        <a href="<?php echo Wo_SeoLink('index.php?link1=wallet'); ?>">      
+                           <?php echo $wo['lang']['top_up'] ?>
+                        </a>
+                     </div>
+                  <?php else: ?>  
+                     <div class="alert alert-info"> 
+                        <p>
+                           <i class="fa fa-info-circle"></i> Sponor Money to <?php echo $wo['story']['publisher']['name']; ?>
+                        </p>
+                     </div>
+                  <?php endif; ?>
+               </div>
+               <div class="text-center">
+                  <div class="form-group w100 add-amount">
+                     <h5 class="sponsor-money">
+                        <span><?php echo Wo_GetCurrency($wo['config']['ads_currency']); ?></span>
+                        <input type="number" placeholder="0.00" min="1.00" max="1000" name="amount" id="amount" />
+                        <select hidden>
+                           <option selected class="pointer"><?php echo $wo['story']['publisher']['name']; ?></option>
+                        </select>
+                     </h5>
+                  </div>
+               </div>
+               <div class="text-center">
+                  <div class="form-group">
+                     <button type="submit" class="btn btn-main" <?php echo ($wo['user']['wallet'] == '0.00' || $wo['user']['wallet'] == '0') ? 'disabled' : ''; ?>><?php echo $wo['lang']['continue'];?></button>
+                     <div class="ball-pulse" style="float:none;"><div></div><div></div><div></div></div>
+                  </div>
+               </div>
+               <input type="hidden" id="recipient_user_id" name="user_id" value="<?php echo $wo['story']['publisher']['user_id']; ?>">
+            </form>
+            <div class="clear"></div>
+         </div>
+      </div>
+   </div>
+</div>
+<script>
+  jQuery(document).ready(function($) {
+      $(document).on('click', 'option', function(event) {
+      event.preventDefault();
+      $("#recipient_user_id").val($(this).attr('id'));
+      $("#send-money-form-<?php echo $wo['story']['id'] ?>").find('#search').val($(this).text());
+      $("#send-money-form-<?php echo $wo['story']['id'] ?>").find(".dropdown").removeClass('open').find('ul').empty();
+    });
+
+    $("#send-money-form-<?php echo $wo['story']['id'] ?>").ajaxForm({
+      url: Wo_Ajax_Requests_File() + '?f=wallet&s=send',
+      type:"POST",
+      beforeSend: function() {
+        $('#send-money-form-<?php echo $wo['story']['id'] ?>').find('.ball-pulse').fadeIn(100);
+      },
+      success: function(data) {
+        scrollToTop();
+        if (data['status'] == 200) {
+          var alert_msg = $("<div>",{
+            class: "alert alert-success",
+            text: data['message']
+          }).prepend('<i class="fa fa-info-check-o"></i> ');;
+
+          $("#send-money-form-alert-<?php echo $wo['story']['id'] ?>").html(alert_msg);
+          $("#send-money-form-<?php echo $wo['story']['id'] ?>").resetForm();
+        } 
+
+        else if (data['message']) {
+          var alert_msg = $("<div>",{
+            class: "alert alert-danger",
+            text: (data['message'])
+          }).prepend('<i class="fa fa-info-circle"></i> ');
+
+          $("#send-money-form-alert-<?php echo $wo['story']['id'] ?>").html(alert_msg);
+        } 
+      $('#send-money-form-<?php echo $wo['story']['id'] ?>').find('.ball-pulse').fadeOut(100);
+      }
+    });
+
+  });
+</script>

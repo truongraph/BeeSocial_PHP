@@ -1,0 +1,51 @@
+<div class="movies-comment-item" data-movies-comment-reply="<?php echo $wo['comm-reply']['id']; ?>">
+  <div class="col-md-1 col-sm-1 col-xs-1 hidden-xs"></div>
+  <div class="col-md-1 col-sm-1 col-xs-1 <?php echo Wo_RightToLeft('pull-left');?> movies-comment-item-img hidden-xs">
+    <img src="<?php echo $wo['comm-reply']['user_data']['avatar']; ?>" alt="" class="responsive-img  img-circle">
+  </div>
+  <div class="col-md-10 col-sm-10 col-xs-10 <?php echo Wo_RightToLeft('pull-right');?> movies-comment-item-body">
+    <h5>
+      <a class="pointer" data-ajax="?link1=timeline&u=<?php echo $wo['comm-reply']['user_data']['username']; ?>" href="<?php echo $wo['comm-reply']['user_data']['url']; ?>">
+        <b><?php echo $wo['comm-reply']['user_data']['name']; ?></b>
+      </a>
+      <span class="time">
+        <span class="ajax-time" title="<?php echo date('c',$wo['comm-reply']['posted']); ?>">
+          <?php echo Wo_Time_Elapsed_String($wo['comm-reply']['posted']); ?>
+        </span>
+      </span>
+      <?php if ($wo['comm-reply']['is_owner']): ?>
+  	  	<span class="pointer <?php echo Wo_RightToLeft('pull-right');?> del-movies-commreplies" id="<?php echo $wo['comm-reply']['id']; ?>">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+        </span>
+	  <?php endif ?>
+    </h5>
+    <p><?php echo $wo['comm-reply']['text']; ?></p>
+    <div>
+      <span class="comment-icons">
+        <span class="pointer reply-tomoviecomm-reply"  data-movies-commId="<?php echo $wo['comm-reply']['comm_id']; ?>" id="<?php echo $wo['comm-reply']['id']; ?>">
+        <svg class="feather feather-message-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="m456.835938 0h-401.667969c-30.421875 0-55.167969 24.746094-55.167969 55.167969v294.238281c0 30.417969 24.746094 55.164062 55.167969 55.164062h127.296875l42.15625 84.316407c7.34375 14.6875 18.78125 23.113281 31.378906 23.113281s24.035156-8.425781 31.378906-23.113281l42.160156-84.316407h127.296876c30.417968 0 55.164062-24.746093 55.164062-55.164062v-294.238281c0-30.421875-24.746094-55.167969-55.164062-55.167969zm25.164062 349.40625c0 13.875-11.289062 25.164062-25.164062 25.164062h-136.566407c-5.683593 0-10.875 3.210938-13.417969 8.292969l-46.304687 92.605469c-1.867187 3.734375-3.621094 5.570312-4.546875 6.273438-.925781-.703126-2.679688-2.539063-4.546875-6.273438l-46.304687-92.605469c-2.539063-5.082031-7.734376-8.292969-13.414063-8.292969h-136.566406c-13.878907 0-25.167969-11.289062-25.167969-25.164062v-294.238281c0-13.878907 11.289062-25.167969 25.167969-25.167969h401.667969c13.875 0 25.164062 11.289062 25.164062 25.167969zm0 0"></path></svg>
+        </span>
+        &nbsp;
+        <span class="pointer add-movies-commreply-likes-<?php echo $wo['comm-reply']['id']; ?>" onclick="Wo_AddMovieCommReplyLike(<?php echo $wo['comm-reply']['id']; ?>)">
+        	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+        </span> 
+        <span id="movies-comment-likes" data-movies-comrlikes="<?php echo $wo['comm-reply']['id']; ?>">
+          <?php if ($wo['comm-reply']['likes'] > 0): ?>
+            <?php echo $wo['comm-reply']['likes']; ?>
+          <?php endif ?>
+        </span> 
+        &nbsp;
+        <span class="pointer add-movies-commreply-likes-<?php echo $wo['comm-reply']['id']; ?>" onclick="Wo_AddMovieCommReplyDisLike(<?php echo $wo['comm-reply']['id']; ?>)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-down"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>
+        </span> 
+        <span id="movies-comment-likes" data-movies-comrdislikes="<?php echo $wo['comm-reply']['id']; ?>">
+          <?php if ($wo['comm-reply']['dislikes'] > 0): ?>
+            <?php echo $wo['comm-reply']['dislikes']; ?>
+          <?php endif ?>
+        </span>
+        
+        
+      </span>
+    </div>
+  </div>
+</div>

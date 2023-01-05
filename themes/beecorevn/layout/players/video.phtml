@@ -1,0 +1,32 @@
+<div class="user-ad-container" id="<?php echo($wo['wo_ad_id']); ?>">
+	<video id="video--<?php echo $wo['media']['storyId'];?>" onplay="Wo_AddVideoViews($(this).attr('data-post-video'))" class="video-js vjs-big-play-centered <?php echo($wo['rvad_con']); ?>" controls preload="auto" poster="<?php  echo $wo['media']['video_thumb'];?>" data-setup="{}" data-post-video="<?php echo $wo['media']['storyId'];?>" style="width:100%;height:500px;">
+	    <source src="<?php echo $wo['media']['filename'];?>" type='video/mp4'>
+	    <source src="<?php echo $wo['media']['filename'];?>" type='video/webm'> 
+	</video>
+</div>  
+<script>
+fluidPlayer('video--<?php echo $wo['media']['storyId'];?>', {
+    layoutControls: {
+        primaryColor: "#1877f2",
+        fillToContainer: true,
+        allowDownload: true,
+        playbackRateEnabled: true,
+        videoSource: true,
+        animated: true,
+        autoHide: true,
+        playPauseAnimation: true,
+        subtitlesEnabled: true,
+        videoSourceEnabled: true,
+        
+    }
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#video--<?php echo $wo['media']['storyId'];?>').hoverPlay();
+    var vids = $("video"); 
+    $.each(vids, function(){
+        this.controls = false; 
+    }); 
+});
+</script>
